@@ -1,33 +1,52 @@
-n = 5
-m = 5
-linha_aux=""
-for l in (1..n) #itera todas as linhas
-  if l == 1 # a 1 deve receber um tratamento especial, pois a maior parte das demais cobinações são subconjuntos dela
-    for i in (m.downto(l)) #definindo qual coluna será iterada
-      for c in (i.downto(l)) #
-        #linha_aux << grid[linha,coluna]
-        #testa_palavra(linha_aux)
-        linha_aux << "#{l},#{c} "
-        l += 1
+class DiagonalEsquerda < SearchMotor
+
+  def busca_diagonal_esquerda (hash_grid, altura, largura, palavra)
+    linha = 1
+    hash_aux = Hash.new
+    for linha in (1..largura)
+      if linha == 1
+        for i in (altura.downto(linha)) #definindo qual coluna será iterada
+          for coluna in (i.downto(linha)) #
+            valor = hash_grid.fetch([linha,coluna])
+            hash_aux.store([linha,coluna],valor)
+            linha += 1
+          end
+          controle_chamada_direta(hash_aux, palavra, "diagonal indireta", "cima para baixo!")
+          controle_chamada_inversa(hash_aux, palavra, "diagonal indireta", "baixo para cima!")
+          hash_aux = {}
+          linha = 1
+        end
+      else
+        l = linha
+        for coluna in (coluna.downto(linha)) #
+          valor = hash_grid.fetch([l,coluna])
+          hash_aux.store([l,coluna],valor)
+          l += 1
+        end
+        controle_chamada_direta(hash_aux, palavra, "diagonal indireta", "cima para baixo!")
+        controle_chamada_inversa(hash_aux, palavra, "diagonal indireta", "baixo para cima!")
+        hash_aux = {}
       end
-      puts linha_aux
-      linha_aux = "" #ver a possibilidade de uso do método .clear
-      l = 1
     end
-  else
-    linha = l
-    for c in (m.downto(l)) #
-      #linha_aux << grid[linha,coluna]
-      #testa_palavra(linha_aux)
-      linha_aux << "#{linha},#{c} "
-      linha +=1
-    end
-    puts linha_aux
-    #linha_aux = "" #ver a possibilidade de uso do método .clear
-    linha_aux = ""
-    #end
-
-
   end
-
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

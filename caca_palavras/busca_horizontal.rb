@@ -1,59 +1,29 @@
-#class BuscaHorizontal
-#end
-
-#require 'grid'
-
-#class BuscaDireta
-#public
-
-#def direta (grid)
-altura = 3
-largura = 3
-# str = ""
-#l = 1
-#for linha in (1..altura)
- # for coluna in (1..largura)
-  #  if l == linha
-   #   str << "#{linha},#{coluna} "   #"#{@hash_grid[[linha,coluna]]} "
-#
- #   end
-  #end
- # puts str
-
-#end
-#end
+require_relative 'search_motor.rb'
 
 
+class BuscaHorizontal < SearchMotor
 
-hash_grid = {}
-for linha in (1..altura)
-  for coluna in (1..largura)
-    hash_grid[[linha,coluna]] = rand(65..90).chr
-  end
-end
+  def busca_horizontal (hash_grid, altura, largura, palavra)
 
-l = 1
-for linha in (1..altura)
-  for coluna in (1..largura)
-    if l == linha
-      print "#{hash_grid[[linha,coluna]]} "
+    valores = ""
+    l = 1
+    sentido = "esquerda para a direita!"
+    sentido_dir_esq = "direita para a esquerda!"
+    hash_aux = Hash.new
+    valor=""
+    for linha in (l..altura)
+      for coluna in (1..largura)
+        valor = hash_grid.fetch([linha,coluna])
+        hash_aux.store([linha,coluna],valor) if l == linha
+      end
+      controle_chamada_direta(hash_aux, palavra, "horizontal", "esquerda para direita!")
+      controle_chamada_inversa(hash_aux, palavra, "horizontal", "direita para esquerda!")
+      hash_aux = {}
+      valores = ""
+      l += 1
     end
   end
-  l += 1
-  print "\n"
+
 end
 
-l = 1
-hash_aux = {}
-for linha in (1..altura)
-  for coluna in (1..largura)
-    if l == linha
-      hash_aux = hash_grid.assoc([linha,coluna])
-    end
-    print hash_aux
-  end
-  puts
-  #print hash_aux
-  l += 1
-  hash_aux = {}
-end
+

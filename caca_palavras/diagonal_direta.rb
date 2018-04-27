@@ -1,34 +1,36 @@
+class DiagonalDireta < SearchMotor
 
-#grid = [ [l,1,1], [c,1,2],[a,1,3], [s,1,4], [a,1,5],
-#         [m,2,1], [m,2,2], [m,2,3], [m,2,4], [m,2,5],
-#         [m,3,1], [m,3,2], [m,3,3], [m,3,4], [m,3,5],
-#         [m,4,1], [m,4,2], [m,4,3], [m,4,4], [m,4,5]
-#      ]
-
-n = 5
-linha_aux=""
-for l in (1..n) #itera todas as linhas
-  if l == 1 # a 1 deve receber um tratamento especial, pois a maior parte das demais cobinações são subconjuntos dela
-    for i in (1..n) #definindo qual coluna será iterada
-      for c in (i..n) #
-        #linha_aux << grid[linha,coluna]
-        #testa_palavra(linha_aux)
-        linha = 1
-        linha_aux << "#{l},#{c} "
-        l = l + 1
+  def busca_diagonal_direta (hash_grid, altura, largura, palavra)
+    # declaração de variáveis
+    l = 1
+    hash_aux = Hash.new
+    #iteração da diagonal direta - da esquerda para a direita - principal (todas as chaves que fazem parte do conjunto linha 1)
+    for linha in (l..altura)
+      if linha == 1
+        for i in (linha..altura)
+          for coluna in (i..largura)
+            valor = hash_grid.fetch([linha,coluna])
+            hash_aux.store([linha,coluna],valor)
+            linha += 1
+          end
+          controle_chamada_direta(hash_aux, palavra, "diagonal direta", "cima para baixo!")
+          controle_chamada_inversa(hash_aux, palavra, "diagonal direta", "baixo para cima!")
+          hash_aux = {}
+          l += 1
+          linha = 1
+        end
+      else
+        coluna = 1
+        for l in (linha..largura)
+          valor = hash_grid.fetch([l,coluna])
+          hash_aux.store([l,coluna],valor)
+          coluna += 1
+        end
+        controle_chamada_direta(hash_aux, palavra, "diagonal indireta", "cima para baixo!")
+        controle_chamada_inversa(hash_aux, palavra, "diagonal indireta", "baixo para cima!")
+        hash_aux = {}
       end
-      puts linha_aux
-      linha_aux = "" #ver a possibilidade de uso do método .clear
-      l = 1
     end
-  else
-
-    for c in (1..n) #iterar as diagonais que não são subconjuntos da linha 1
-        #linha_aux << grid[linha,coluna]
-        #testa_palavra(linha_aux)
-        print "#{l},#{c}; "
-    end
-    puts
   end
-
 end
+

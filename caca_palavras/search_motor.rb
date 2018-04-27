@@ -1,28 +1,44 @@
-#1 - pensar em atributos para a classe, mas há a possibilidadede de fazer diversos atributos Boolean - EX. busca_direta
-# OU (me parece melhor) criar um atributo  chamado "tipo" - que recebe um símbolo ou um hash, com valores já inicializados
-#2 - Talvez seja melhor criar uma classe para cada motor de busca. Daí criar um atributo boleano "direta", if false é inversa
-
-require 'grid'
+#require_relative 'grid.rb'
 
 class SearchMotor
-  def initialize (tipo)
-    @tipo = tipo
+
+  def pega_linha(hash_aux)
+    valores = ""
+    hash_aux.each_value {|x| valores << x}
+    return valores
   end
 
-  def busca_direta (Grid.grid)
-    l = 1
-    hash_aux = {}
-    for linha in (1..altura)
-      for coluna in (1..largura)
-        if l == linha
-          # str << "#{linha},#{coluna} "   #"#{@hash_grid[[linha,coluna]]} "
-
-        end
-      end
-      puts str
-      l += 1
-      hash_aux = {}
+  def busca_palavra (valores, palavra)
+    posicao = valores.index(palavra)
+    return posicao
   end
 
+  def encontra_posicao (hash_aux, posicao, tipo, palavra, sentido)
+    controle = 0
+    hash_aux.each do |chave, valor|
+      puts "A palavra #{palavra} está na linha #{chave[0]}, coluna #{chave[1]} na #{tipo} da #{sentido}" if posicao == controle
+      controle += 1
+    end
+  end
+
+  def controle_chamada_direta(hash_aux, palavra, tipo, sentido)
+    linha_aux = pega_linha(hash_aux)
+    posicao = busca_palavra(linha_aux, palavra)
+    encontra_posicao(hash_aux, posicao, tipo, palavra, sentido)
+  end
+
+  def controle_chamada_inversa(hash_aux, palavra, tipo, sentido)
+    linha_aux = pega_linha(hash_aux)
+    posicao = busca_palavra(linha_aux.reverse, palavra)
+    posicao_invert = posicao_inversa(posicao,linha_aux.length) if posicao != nil
+    encontra_posicao(hash_aux, posicao_invert, tipo, palavra, sentido)
+  end
+
+  def posicao_inversa (posicao, tamanho)
+    pos_invert =  (tamanho-1) - posicao
+  end
 
 end
+
+
+
