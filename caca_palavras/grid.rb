@@ -3,6 +3,8 @@ require_relative 'busca_vertical.rb'
 require_relative 'search_motor.rb'
 require_relative 'diagonal_direta.rb'
 require_relative 'diagonal_esquerda.rb'
+require_relative 'dicionario'
+
 
 class Grid
   attr_reader :altura, :largura, :hash_grid
@@ -49,11 +51,13 @@ puts "entre com a altura de sua matriz"
 grid.inserir_largura
 grid.preenche_caca_palavra
 grid.imprime_caca_palavras
+dicionario = Dicionario.new
+hash_json = dicionario.importa_json
 horizontal = BuscaHorizontal.new
-horizontal.busca_horizontal(grid.hash_grid, grid.altura, grid.largura, palavra)
+horizontal.busca_horizontal(grid.hash_grid, grid.altura, grid.largura, hash_json)
 vertical = BuscaVertical.new
-vertical.busca_vertical(grid.hash_grid, grid.altura, grid.largura, palavra)
+vertical.busca_vertical(grid.hash_grid, grid.altura, grid.largura, hash_json)
 diagonal_direta = DiagonalDireta.new
-diagonal_direta.busca_diagonal_direta(grid.hash_grid, grid.altura, grid.largura, palavra)
+diagonal_direta.busca_diagonal_direta(grid.hash_grid, grid.altura, grid.largura, hash_json)
 diagonal_esquerda = DiagonalEsquerda.new
-diagonal_esquerda.busca_diagonal_esquerda(grid.hash_grid, grid.altura, grid.largura, palavra)
+diagonal_esquerda.busca_diagonal_esquerda(grid.hash_grid, grid.altura, grid.largura, hash_json)

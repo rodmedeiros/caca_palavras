@@ -16,8 +16,19 @@ class SearchMotor
   def encontra_posicao (hash_aux, posicao, tipo, palavra, sentido)
     controle = 0
     hash_aux.each do |chave, valor|
-      puts "A palavra #{palavra} está na linha #{chave[0]}, coluna #{chave[1]} na #{tipo} da #{sentido}" if posicao == controle
+      imprime_resposta(palavra, chave[0], chave[1],tipo, sentido) if posicao == controle
       controle += 1
+    end
+  end
+
+  def imprime_resposta(palavra, linha, coluna,tipo, sentido)
+    puts "A palavra #{palavra} está na linha #{linha}, coluna #{coluna} na #{tipo} da #{sentido}"
+  end
+
+  def controle_chamadas(hash_aux, tipo, hash_json)
+    hash_json.each do |valor|
+      controle_chamada_direta(hash_aux, valor.upcase, tipo, "cima para baixo!")
+      controle_chamada_inversa(hash_aux, valor.upcase,tipo, "baixo para cima!")
     end
   end
 
@@ -36,6 +47,7 @@ class SearchMotor
 
   def posicao_inversa (posicao, tamanho)
     pos_invert =  (tamanho-1) - posicao
+    return pos_invert
   end
 
 end
